@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoMonitor | Smart Dashboard</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Textura de fondo: estratos de suelo -->
+    <div class="soil-strata" aria-hidden="true"></div>
+
+    <div class="container-dashboard">
+        <!-- HEADER -->
+        <header class="header-dashboard">
+            <div>
+                <h1 class="logo">EcoMonitor<span>· smart</span></h1>
+                <p class="subtitle">Monitoreo inteligente para ahorro de agua</p>
+            </div>
+
+            <div id="status-badge" class="status-pill status-active">
+                <span class="status-dot"></span>
+                <span id="status-text">Sistema activo</span>
+            </div>
+        </header>
+
+        <!-- Grid Principal -->
+        <div class="dashboard-grid">
+            <!-- Tarjeta de Humedad -->
+            <div class="card humidity-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-droplet"></i>
+                    <h2>Humedad del suelo</h2>
+                </div>
+
+                <div class="droplet-container">
+                    <svg class="droplet-svg" viewBox="0 0 120 150" aria-hidden="true">
+                        <defs>
+                            <clipPath id="dropletClip">
+                                <path d="M60 8 C60 8 16 68 16 100 C16 124 35 143 60 143 C85 143 104 124 104 100 C104 68 60 8 60 8 Z"/>
+                            </clipPath>
+                            <linearGradient id="waterGradient" x1="0" y1="1" x2="0" y2="0">
+                                <stop offset="0%" stop-color="#4E9D74"/>
+                                <stop offset="100%" stop-color="#8CE3AE"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Contorno -->
+                        <path class="droplet-outline" d="M60 8 C60 8 16 68 16 100 C16 124 35 143 60 143 C85 143 104 124 104 100 C104 68 60 8 60 8 Z"/>
+
+                        <!-- Relleno de agua, recortado por la forma de la gota -->
+                        <g clip-path="url(#dropletClip)">
+                            <rect id="water-level" x="0" y="150" width="120" height="150" fill="url(#waterGradient)"/>
+                        </g>
+                    </svg>
+
+                    <div class="droplet-text">
+                        <span id="txt-humedad" class="humidity-value">--</span>
+                        <span class="humidity-symbol">%</span>
+                    </div>
+                </div>
+
+                <p class="card-description">Nivel actual de humedad detectado en el suelo.</p>
+            </div>
+
+            <!-- Tarjeta de Temperatura -->
+            <div class="card temp-card">
+                <div class="card-header">
+                    <i class="fa-solid fa-temperature-three-quarters"></i>
+                    <h2>Temperatura ambiente</h2>
+                </div>
+
+                <div class="thermo-container">
+                    <div class="thermo-tube">
+                        <div id="bar-temp" class="thermo-fill"></div>
+                        <div class="thermo-bulb"></div>
+                    </div>
+
+                    <div class="temp-readout">
+                        <span id="txt-temp" class="temp-value">--</span>
+                        <span class="temp-symbol">°C</span>
+                    </div>
+                </div>
+
+                <p class="card-description">Temperatura registrada en tiempo real.</p>
+            </div>
+
+            <!-- IA -->
+            <div class="ai-card">
+                <div class="ai-header">
+                    <div class="ai-icon-box">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h2>Inteligencia artificial</h2>
+                        <p>Recomendación automática</p>
+                    </div>
+                </div>
+
+                <p id="texto-ia" class="ai-text">
+                    "Conectando con el servidor para analizar el estado del cultivo..."
+                </p>
+            </div>
+
+            <!-- RIEGO MANUAL -->
+            <div class="water-card">
+                <div class="water-info">
+                    <h3>Registro manual de riego</h3>
+                    <p>Ingresa la cantidad de agua utilizada para mejorar la precisión de la IA y generar mejores recomendaciones.</p>
+                </div>
+
+                <div class="water-controls">
+                    <div class="input-group">
+                        <input id="input-riego" type="number" min="0" placeholder="Cantidad" />
+                        <span>ml</span>
+                    </div>
+                    <button onclick="registrarRiego()">Registrar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <p>EcoMonitor Smart © 2026</p>
+            <p>Sistema de monitoreo inteligente y ahorro de agua.</p>
+        </footer>
+    </div>
+
+    <!-- Toast de confirmación -->
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>

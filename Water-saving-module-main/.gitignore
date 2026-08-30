@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.pyc
+*.lck
+*-bak
+_auto_saved_files_/
+fp-info-cache
+los_creadores-backups/
+*.kicad_prl

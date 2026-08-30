@@ -1,0 +1,545 @@
+:root {
+    --bg-deep: #0F1912;
+    --bg-panel: #17241A;
+    --bg-panel-alt: #1C2B20;
+    --border-soft: rgba(233, 239, 230, 0.08);
+    --leaf: #6FCF97;
+    --leaf-soft: #4E9D74;
+    --clay: #E8955C;
+    --mist: #8FB8C9;
+    --text: #E9EFE6;
+    --text-muted: #93A490;
+    --danger: #E8735C;
+ 
+    --font-display: "Fraunces", serif;
+    --font-body: "Space Grotesk", sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+}
+ 
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+ 
+body {
+    min-height: 100vh;
+    background: var(--bg-deep);
+    font-family: var(--font-body);
+    color: var(--text);
+    position: relative;
+    overflow-x: hidden;
+}
+ 
+/* =========================
+   TEXTURA DE FONDO (estratos de suelo)
+========================= */
+ 
+.soil-strata {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        linear-gradient(180deg, transparent 0%, transparent 60%, rgba(232, 149, 92, 0.04) 60%, rgba(232, 149, 92, 0.04) 78%, rgba(143, 184, 201, 0.05) 78%, rgba(143, 184, 201, 0.05) 100%),
+        radial-gradient(ellipse at 15% 0%, rgba(111, 207, 151, 0.08), transparent 55%);
+}
+ 
+/* =========================
+   CONTENEDOR GENERAL
+========================= */
+ 
+.container-dashboard {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 24px;
+}
+ 
+/* =========================
+   HEADER
+========================= */
+ 
+.header-dashboard {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border-soft);
+}
+ 
+.logo {
+    font-family: var(--font-display);
+    font-size: 2.4rem;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+ 
+.logo span {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--leaf);
+    font-size: 1.4rem;
+    margin-left: 6px;
+}
+ 
+.subtitle {
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-size: 0.95rem;
+}
+ 
+.status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border-soft);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+ 
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--leaf);
+    box-shadow: 0 0 0 0 rgba(111, 207, 151, 0.6);
+    animation: pulse-dot 2s infinite;
+}
+ 
+.status-pill.status-offline {
+    color: var(--danger);
+}
+ 
+.status-pill.status-offline .status-dot {
+    background: var(--danger);
+    box-shadow: 0 0 0 0 rgba(232, 115, 92, 0.6);
+    animation: pulse-dot-danger 1.4s infinite;
+}
+ 
+@keyframes pulse-dot {
+    0% { box-shadow: 0 0 0 0 rgba(111, 207, 151, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(111, 207, 151, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(111, 207, 151, 0); }
+}
+ 
+@keyframes pulse-dot-danger {
+    0% { box-shadow: 0 0 0 0 rgba(232, 115, 92, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(232, 115, 92, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(232, 115, 92, 0); }
+}
+ 
+/* =========================
+   GRID
+========================= */
+ 
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+ 
+/* =========================
+   CARDS GENERALES
+========================= */
+ 
+.card {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-soft);
+    padding: 32px;
+    border-radius: 28px 12px 28px 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+ 
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+    border-color: rgba(233, 239, 230, 0.16);
+}
+ 
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    align-self: flex-start;
+    margin-bottom: 20px;
+    color: var(--text-muted);
+}
+ 
+.card-header i {
+    color: var(--leaf);
+}
+ 
+.card-header h2 {
+    font-family: var(--font-body);
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+ 
+.card-description {
+    margin-top: 20px;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    text-align: center;
+}
+ 
+/* =========================
+   HUMEDAD (GOTA)
+========================= */
+ 
+.droplet-container {
+    position: relative;
+    width: 150px;
+    height: 150px;
+}
+ 
+.droplet-svg {
+    width: 100%;
+    height: 100%;
+}
+ 
+.droplet-outline {
+    fill: none;
+    stroke: var(--border-soft);
+    stroke-width: 2.5;
+}
+ 
+#water-level {
+    transition: y 0.7s cubic-bezier(0.4, 0, 0.2, 1), height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+}
+ 
+.droplet-text {
+    position: absolute;
+    inset: 0;
+    top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+ 
+.humidity-value {
+    font-family: var(--font-mono);
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+ 
+.humidity-symbol {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-left: 2px;
+    align-self: flex-start;
+    margin-top: 8px;
+}
+ 
+/* =========================
+   TEMPERATURA (TERMÓMETRO)
+========================= */
+ 
+.thermo-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 150px;
+}
+ 
+.thermo-tube {
+    width: 22px;
+    height: 130px;
+    background: var(--bg-panel-alt);
+    border: 2px solid var(--border-soft);
+    border-radius: 999px 999px 0 0;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    overflow: visible;
+    margin-bottom: 17px;
+}
+ 
+.thermo-fill {
+    width: 100%;
+    height: 0%;
+    background: linear-gradient(180deg, #F5B27C, var(--clay));
+    transition: height 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 0 0 4px 4px;
+}
+ 
+.thermo-bulb {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--clay);
+    border: 2px solid var(--border-soft);
+    box-shadow: 0 0 0 6px var(--bg-panel);
+    position: absolute;
+    bottom: -17px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+ 
+.temp-readout {
+    display: flex;
+    align-items: flex-start;
+}
+ 
+.temp-value {
+    font-family: var(--font-mono);
+    font-size: 2.4rem;
+    font-weight: 700;
+}
+ 
+.temp-symbol {
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    margin-top: 6px;
+}
+ 
+/* =========================
+   IA
+========================= */
+ 
+.ai-card {
+    grid-column: span 2;
+    background: linear-gradient(120deg, #1E3226, #16241A 60%);
+    border: 1px solid var(--border-soft);
+    color: var(--text);
+    padding: 32px;
+    border-radius: 12px 28px 12px 28px;
+    position: relative;
+    overflow: hidden;
+}
+ 
+.ai-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 90% 10%, rgba(111, 207, 151, 0.12), transparent 45%);
+}
+ 
+.ai-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+    position: relative;
+}
+ 
+.ai-icon-box {
+    background: rgba(111, 207, 151, 0.14);
+    color: var(--leaf);
+    padding: 12px;
+    border-radius: 14px;
+    font-size: 1.1rem;
+}
+ 
+.ai-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+ 
+.ai-header p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+ 
+.ai-text {
+    position: relative;
+    font-family: var(--font-display);
+    font-style: italic;
+    font-size: 1.25rem;
+    line-height: 1.6;
+    color: var(--text);
+    transition: opacity 0.3s ease;
+}
+ 
+/* =========================
+   RIEGO
+========================= */
+ 
+.water-card {
+    grid-column: span 2;
+    background: var(--bg-panel);
+    border: 1.5px dashed rgba(143, 184, 201, 0.35);
+    padding: 28px;
+    border-radius: 28px 12px 28px 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+}
+ 
+.water-info h3 {
+    font-family: var(--font-body);
+    font-size: 1rem;
+    margin-bottom: 6px;
+}
+ 
+.water-info p {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    max-width: 46ch;
+}
+ 
+.water-controls {
+    display: flex;
+    gap: 10px;
+    flex-shrink: 0;
+}
+ 
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border-soft);
+    border-radius: 12px;
+    padding: 0 14px;
+}
+ 
+.water-controls input {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    padding: 12px 0;
+    width: 100px;
+}
+ 
+.water-controls input::placeholder {
+    color: var(--text-muted);
+}
+ 
+.input-group span {
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+ 
+.water-controls button {
+    border: none;
+    background: var(--mist);
+    color: #0F1912;
+    padding: 0 22px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    font-family: var(--font-body);
+    transition: all 0.2s ease;
+}
+ 
+.water-controls button:hover {
+    background: #A6CBD9;
+}
+ 
+.water-controls button:active {
+    transform: scale(0.97);
+}
+ 
+/* =========================
+   TOAST
+========================= */
+ 
+.toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: var(--bg-panel-alt);
+    border: 1px solid var(--border-soft);
+    color: var(--text);
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-family: var(--font-body);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    z-index: 10;
+}
+ 
+.toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+ 
+/* =========================
+   FOOTER
+========================= */
+ 
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+ 
+/* =========================
+   ACCESIBILIDAD
+========================= */
+ 
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--leaf);
+    outline-offset: 2px;
+}
+ 
+@media (prefers-reduced-motion: reduce) {
+    .status-dot,
+    .card,
+    #water-level,
+    .thermo-fill,
+    .toast {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+ 
+/* =========================
+   RESPONSIVE
+========================= */
+ 
+@media (max-width: 768px) {
+    .header-dashboard {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+ 
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+ 
+    .ai-card,
+    .water-card {
+        grid-column: span 1;
+    }
+ 
+    .water-card {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+ 
+    .water-controls {
+        flex-direction: column;
+    }
+}
