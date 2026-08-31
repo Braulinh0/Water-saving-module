@@ -33,7 +33,7 @@ def obtener_temperatura_api():
 try :
     modelo = joblib.load("modeloIA_riego.pkl")
 except FileNotFoundError :
-    print("⚠️ No se encontró modeloIA_riego.pkl. Ejecuta ia_training.py primero.")
+    print("No se encontró modeloIA_riego.pkl. Ejecuta ia_training.py primero.")
     modelo = None
 
 # Molde
@@ -72,7 +72,7 @@ def recibir_datos_sensor(datos: DatosSensor):
     # Temperatura real
     temp_api = obtener_temperatura_api()
 
-    #Desicion de la API o Local
+    # Desicion de la API o Local
 
     if temp_api is not None:
         temp_para_ia = temp_api
@@ -96,13 +96,13 @@ def recibir_datos_sensor(datos: DatosSensor):
     else:
         aviso = f"La tierra requiere riego, se recomienda aplicar {ml_recomendado} ml de agua."
 
-    #Hora
+    # Hora
 
     ahora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
     fila = [ahora, datos.humedad_tierra, temp_para_ia, ml_recomendado]
     
-    #Historial de Riego
+    # Historial de Riego
 
     with open("historial_riego.csv", mode="a", newline="") as archivo:
         escritor = csv.writer(archivo)
